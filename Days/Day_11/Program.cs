@@ -30,19 +30,19 @@ class Program
         }
 
 
-        BigInteger blinksPart1 = 25;
-        BigInteger blinksPart2 = 75;
+        BigInteger Part1 = 25;
+        BigInteger Part2 = 75;
 
         
-        BigInteger totalStonesPart1 = ProcessBlinks(input, blinksPart1);
-        Console.WriteLine(totalStonesPart1);
+        BigInteger P1 = Calc(input, Part1);
+        Console.WriteLine(P1);
 
         
-        BigInteger totalStonesPart2 = ProcessBlinks(input, blinksPart2);
-        Console.WriteLine(totalStonesPart2);
+        BigInteger P2 = Calc(input, Part2);
+        Console.WriteLine(P2);
     }
 
-    static BigInteger ProcessBlinks(Dictionary<BigInteger, BigInteger> input, BigInteger blinks)
+    static BigInteger Calc(Dictionary<BigInteger, BigInteger> input, BigInteger blinks)
     {
         for (BigInteger blink = 0; blink < blinks; blink++)
         {
