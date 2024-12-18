@@ -4,6 +4,7 @@ Welcome to my Advent of Code 2024 repository! 🎄🎉
 
 - 🟢🟢 - Solution completed and correct ✅
 - 🔴🔴 - Solution pending or incomplete ❌
+- 🟠🟠 - Solution completed but not uploaded ⚠️
 
 ## Progress Overview
 
@@ -11,12 +12,12 @@ Welcome to my Advent of Code 2024 repository! 🎄🎉
 |------|-----------|
 | Day 1  | 🟢🟢    |
 | Day 2  | 🟢🟢    |
-| Day 3  | 🟢🔴    |
-| Day 4  | 🟢🟢    |
+| Day 3  | 🟠🔴    |
+| Day 4  | 🟠🟠    |
 | Day 5  | 🟢🟢    |
-| Day 6  | 🟢🟢    |
-| Day 7  | 🟢🟢    |
-| Day 8  | 🟢🟢    |
+| Day 6  | 🟠🟠    |
+| Day 7  | 🟠🟠    |
+| Day 8  | 🟠🟠    |
 | Day 9  | 🔴🔴    |
 | Day 10 | 🔴🔴    |
 | Day 11 | 🟢🟢    |
