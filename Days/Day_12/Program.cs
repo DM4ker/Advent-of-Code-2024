@@ -23,7 +23,7 @@ class Program
         int part2Result = Part2(grid);
         Console.WriteLine(part2Result);
     }
-
+    
     static int Part1(char[][] grid)
     {
         int cost = 0;
