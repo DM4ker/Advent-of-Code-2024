@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,7 +8,7 @@ class Program
     public static void Main()
     {
         Txt_Input txt_Input = new Txt_Input();
-        Order_Analyzer analyzer = new Order_Analyzer(txt_Input.Rules, txt_Input.Updates);
+        Order_An analyzer = new Order_An(txt_Input.Rules, txt_Input.Updates);
         analyzer.Ayz_Update();
         Console.WriteLine(analyzer.Mid_Sum);
         analyzer.Rec_Inc_Update();
@@ -53,17 +53,17 @@ public class Txt_Input
 
         rules = new List<(int, int)>();
         updates = new List<List<int>>();
-        bool is_Rules_Section = true;
+        bool Rules_Sec = true;
 
         foreach (string line in lines)
         {
             if (string.IsNullOrWhiteSpace(line))
             {
-                is_Rules_Section = false;
+                Rules_Sec = false;
                 continue;
             }
 
-            if (is_Rules_Section)
+            if (Rules_Sec)
             {
                 string[] parts = line.Split('|');
                 rules.Add((int.Parse(parts[0]), int.Parse(parts[1])));
@@ -77,12 +77,12 @@ public class Txt_Input
     }
 }
 
-public class Order_Analyzer
+public class Order_An
 {
     private List<(int, int)> Rules;
     private List<List<int>> Updates;
     private int Mid_Sum_Value;
-    private int Mid_Sum_Incorrect_Value;
+    private int Mid_Sum_Inco_Value;
 
     public int Mid_Sum
     {
@@ -92,13 +92,13 @@ public class Order_Analyzer
 
     public int Mid_Sum_Incorrect
     {
-        get { return Mid_Sum_Incorrect_Value; }
-        set { Mid_Sum_Incorrect_Value = value; }
+        get { return Mid_Sum_Inco_Value; }
+        set { Mid_Sum_Inco_Value = value; }
     }
 
     private List<List<int>> Inc_Update;
 
-    public Order_Analyzer(List<(int, int)> rules, List<List<int>> updates)
+    public Order_An(List<(int, int)> rules, List<List<int>> updates)
     {
         Rules = rules;
         Updates = updates;
@@ -131,13 +131,13 @@ public class Order_Analyzer
 
     private bool Correct_Ord(List<int> update)
     {
-        var positions = update.Select((page, index) => (page, index)).ToDictionary(x => x.page, x => x.index);
+        var pos = update.Select((page, index) => (page, index)).ToDictionary(x => x.page, x => x.index);
 
         foreach (var rule in Rules)
         {
-            if (positions.ContainsKey(rule.Item1) && positions.ContainsKey(rule.Item2))
+            if (pos.ContainsKey(rule.Item1) && pos.ContainsKey(rule.Item2))
             {
-                if (positions[rule.Item1] > positions[rule.Item2])
+                if (pos[rule.Item1] > pos[rule.Item2])
                 {
                     return false;
                 }
@@ -148,51 +148,51 @@ public class Order_Analyzer
 
     private List<int> Rec_Update(List<int> update)
     {
-        var graph = new Dictionary<int, List<int>>();
+        var gr = new Dictionary<int, List<int>>();
         foreach (var rule in Rules)
         {
-            if (!graph.ContainsKey(rule.Item1)) graph[rule.Item1] = new List<int>();
-            graph[rule.Item1].Add(rule.Item2);
+            if (!gr.ContainsKey(rule.Item1)) gr[rule.Item1] = new List<int>();
+            gr[rule.Item1].Add(rule.Item2);
         }
 
-        var sorted = TLog_Sort(update, graph);
+        var sorted = TLog_Sort(update, gr);
         return sorted;
     }
 
-    private List<int> TLog_Sort(List<int> update, Dictionary<int, List<int>> graph)
+    private List<int> TLog_Sort(List<int> update, Dictionary<int, List<int>> gr)
     {
         var in_Degree = update.ToDictionary(x => x, x => 0);
-        foreach (var key in graph.Keys)
+        foreach (var key in gr.Keys)
         {
             if (!update.Contains(key)) continue;
-            foreach (var neighbor in graph[key])
+            foreach (var neighbor in gr[key])
             {
                 if (!update.Contains(neighbor)) continue;
                 in_Degree[neighbor]++;
             }
         }
 
-        var queue = new Queue<int>(update.Where(x => in_Degree[x] == 0));
-        var sorted = new List<int>();
+        var que = new Queue<int>(update.Where(x => in_Degree[x] == 0));
+        var sort = new List<int>();
 
-        while (queue.Count > 0)
+        while (que.Count > 0)
         {
-            var current = queue.Dequeue();
-            sorted.Add(current);
+            var current = que.Dequeue();
+            sort.Add(current);
 
-            if (!graph.ContainsKey(current)) continue;
-            foreach (var neighbor in graph[current])
+            if (!gr.ContainsKey(current)) continue;
+            foreach (var neigh in gr[current])
             {
-                if (!update.Contains(neighbor)) continue;
-                in_Degree[neighbor]--;
-                if (in_Degree[neighbor] == 0)
+                if (!update.Contains(neigh)) continue;
+                in_Degree[neigh]--;
+                if (in_Degree[neigh] == 0)
                 {
-                    queue.Enqueue(neighbor);
+                    que.Enqueue(neigh);
                 }
             }
         }
 
-        return sorted;
+        return sort;
     }
 
     private int Mid_Page(List<int> update)
